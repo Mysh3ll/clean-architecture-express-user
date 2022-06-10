@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+        - ./:/usr/src
+    container_name: backend
+    environment:
+      PORT: 4000
+    expose:
+      - '4000'
+    ports:
+      - '4000:4000'
+      - '9229:9229'
+    command: ["npm", "run", "dev"]

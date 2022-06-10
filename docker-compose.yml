@@ -11,6 +11,7 @@ services:
     container_name: backend
     environment:
       PORT: 4000
+      ENABLE_LOGS: 'true'
     expose:
       - '4000'
     ports:

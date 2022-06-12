@@ -1,7 +1,13 @@
 import { Server } from 'http';
 import express, { json, urlencoded } from 'express';
 import morgan from 'morgan';
-import { Logger } from '../../core/domain/logger';
+import { Logger } from '../../core/domain/services/logger';
+import { GetUserUseCaseInterface } from '../../core/use-cases/get-user-use-case';
+import { userRouter } from './routes/user-route';
+import { AddUserUseCaseInterface } from '../../core/use-cases/add-user-use-case';
+import { errorHandler } from './middlewares/error-handler';
+import { UpdateUserUseCaseInterface } from '../../core/use-cases/update-user-use-case';
+import { DeleteUserUseCaseInterface } from '../../core/use-cases/delete-user-use-case';
 
 export interface RestApiConfig {
   log?: boolean;
@@ -12,6 +18,10 @@ export interface RestApiConfig {
 export interface RestApiProps {
   logger: Logger;
   config: RestApiConfig;
+  getUserUseCase: GetUserUseCaseInterface;
+  addUserUseCase: AddUserUseCaseInterface;
+  updateUserUseCase: UpdateUserUseCaseInterface;
+  deleteUserUseCase: DeleteUserUseCaseInterface;
 }
 
 export default class RestApi {
@@ -38,6 +48,19 @@ export default class RestApi {
         timestamp: Date.now(),
       });
     });
+
+    // API routes
+    this.app.use(
+      '/api/users',
+      userRouter(
+        props.getUserUseCase,
+        props.addUserUseCase,
+        props.updateUserUseCase,
+        props.deleteUserUseCase
+      )
+    );
+
+    this.app.use(errorHandler(props.logger));
   }
 
   listen(): Server {

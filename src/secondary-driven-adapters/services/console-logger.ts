@@ -1,4 +1,4 @@
-import { Logger } from '../core/domain/logger';
+import { Logger } from '../../core/domain/services/logger';
 
 export class ConsoleLogger implements Logger {
   debug(message: string, ...optionalParams: unknown[]): void {

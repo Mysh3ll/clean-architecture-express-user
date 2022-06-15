@@ -1,20 +1,16 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { GetUserUseCaseInterface } from '../../../core/use-cases/get-user-use-case';
-import { UserSnapshot } from '../../../core/domain/entities/user';
 import {
-  AddUserDto,
-  AddUserUseCaseInterface,
-} from '../../../core/use-cases/add-user-use-case';
+  AddUserData,
+  DeleteUserData,
+  UpdateUserData,
+  UserSnapshot,
+} from '../../../core/domain/entities/user';
+import { AddUserUseCaseInterface } from '../../../core/use-cases/add-user-use-case';
 import { body, param } from 'express-validator';
 import expressValidation from '../middlewares/express-validation';
-import {
-  UpdateUserDto,
-  UpdateUserUseCaseInterface,
-} from '../../../core/use-cases/update-user-use-case';
-import {
-  DeleteUserDto,
-  DeleteUserUseCaseInterface,
-} from '../../../core/use-cases/delete-user-use-case';
+import { UpdateUserUseCaseInterface } from '../../../core/use-cases/update-user-use-case';
+import { DeleteUserUseCaseInterface } from '../../../core/use-cases/delete-user-use-case';
 
 export function userRouter(
   getUserUseCaseInterface: GetUserUseCaseInterface,
@@ -36,7 +32,7 @@ export function userRouter(
     body('email').isEmail(),
     expressValidation,
     async (req: Request, res: Response, next: NextFunction) => {
-      const { username, email, age } = req.body as AddUserDto;
+      const { username, email, age } = req.body as AddUserData;
 
       try {
         await addUserUseCaseInterface.execute({ username, email, age });
@@ -56,7 +52,7 @@ export function userRouter(
     expressValidation,
     async (req: Request, res: Response, next: NextFunction) => {
       const { id } = req.params;
-      const { username, age } = req.body as UpdateUserDto;
+      const { username, age } = req.body as UpdateUserData;
 
       try {
         await updateUserUseCaseInterface.execute({ id, username, age });
@@ -74,7 +70,7 @@ export function userRouter(
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         await deleteUserUseCaseInterface.execute(
-          req.params as unknown as DeleteUserDto
+          req.params as unknown as DeleteUserData
         );
 
         return res.sendStatus(200);

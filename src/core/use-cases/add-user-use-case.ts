@@ -1,16 +1,10 @@
-import { User } from '../domain/entities/user';
+import { AddUserData, User, UserSnapshot } from '../domain/entities/user';
 import { UserRepository } from '../domain/repositories/user-repository';
 import { IdGenerator } from '../domain/services/id-generator';
 import { UserAlreadyExistsError } from '../domain/errors/user-already-exists-error';
 
-export interface AddUserDto {
-  username: string;
-  email: string;
-  age: number | null;
-}
-
 export interface AddUserUseCaseInterface {
-  execute(addUserDto: AddUserDto): Promise<void>;
+  execute(addUserData: AddUserData): Promise<void>;
 }
 
 export class AddUserUseCase implements AddUserUseCaseInterface {
@@ -19,18 +13,19 @@ export class AddUserUseCase implements AddUserUseCaseInterface {
     private readonly idGenerator: IdGenerator
   ) {}
 
-  async execute(addUserDto: AddUserDto): Promise<void> {
-    const user = new User(
+  async execute(addUserData: AddUserData): Promise<void> {
+    const user: User = new User(
       this.idGenerator.generate(),
-      addUserDto.username,
-      addUserDto.email,
-      addUserDto.age ?? null
+      addUserData.username,
+      addUserData.email,
+      addUserData.age ?? null
     );
 
-    const existingUser = await this.userRepository.getByEmail(addUserDto.email);
+    const existingUser: UserSnapshot | null =
+      await this.userRepository.getByEmail(addUserData.email);
     if (existingUser) {
       throw new UserAlreadyExistsError(
-        `User already exists with email: ${addUserDto.email}`
+        `User already exists with email: ${addUserData.email}`
       );
     }
 

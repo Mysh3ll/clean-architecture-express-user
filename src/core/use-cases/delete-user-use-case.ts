@@ -1,17 +1,14 @@
 import { UserRepository } from '../domain/repositories/user-repository';
-
-export interface DeleteUserDto {
-  id: string;
-}
+import { DeleteUserData } from '../domain/entities/user';
 
 export interface DeleteUserUseCaseInterface {
-  execute(deleteUserDto: DeleteUserDto): Promise<void>;
+  execute(deleteUserData: DeleteUserData): Promise<void>;
 }
 
 export class DeleteUserUseCase implements DeleteUserUseCaseInterface {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async execute(deleteUserDto: DeleteUserDto): Promise<void> {
-    await this.userRepository.delete(deleteUserDto.id);
+  async execute(deleteUserData: DeleteUserData): Promise<void> {
+    await this.userRepository.delete(deleteUserData.id);
   }
 }

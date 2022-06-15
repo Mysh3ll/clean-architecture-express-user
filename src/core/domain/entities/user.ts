@@ -1,5 +1,21 @@
 import Assertion from '../validation/assertion';
 
+export interface AddUserData {
+  username: string;
+  email: string;
+  age: number | null;
+}
+
+export interface DeleteUserData {
+  id: string;
+}
+
+export interface UpdateUserData {
+  id: string;
+  username?: string;
+  age?: number;
+}
+
 export interface UserSnapshot {
   id: string;
   username: string;
@@ -39,6 +55,15 @@ export class User {
       snapshot.username,
       snapshot.email,
       snapshot.age ?? null
+    );
+  }
+
+  static update(snapshot: UserSnapshot, updateUser: UpdateUserData): User {
+    return new User(
+      updateUser.id,
+      updateUser.username ?? snapshot.username,
+      snapshot.email,
+      updateUser.age ?? snapshot.age
     );
   }
 }

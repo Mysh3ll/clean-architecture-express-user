@@ -7,7 +7,7 @@ import { AddUserUseCase } from './core/use-cases/add-user-use-case';
 import { UpdateUserUseCase } from './core/use-cases/update-user-use-case';
 import { DeleteUserUseCase } from './core/use-cases/delete-user-use-case';
 
-(async () => {
+(() => {
   // Read config
 
   const enableLog = process.env.ENABLE_LOGS

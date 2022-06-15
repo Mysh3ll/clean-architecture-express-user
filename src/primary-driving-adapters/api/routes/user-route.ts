@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { GetUserUseCaseInterface } from '../../../core/use-cases/get-user-use-case';
 import { UserSnapshot } from '../../../core/domain/entities/user';
 import {
@@ -35,7 +35,7 @@ export function userRouter(
     body('username').isString(),
     body('email').isEmail(),
     expressValidation,
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
       const { username, email, age } = req.body as AddUserDto;
 
       try {
@@ -43,11 +43,7 @@ export function userRouter(
 
         return res.sendStatus(201);
       } catch (err: unknown) {
-        if (err instanceof Error) {
-          return res.status(400).send({ name: err.name, message: err.message });
-        }
-
-        return res.status(400).send(err);
+        next(err);
       }
     }
   );
@@ -58,7 +54,7 @@ export function userRouter(
     body('username').optional().isString(),
     body('age').optional().isNumeric(),
     expressValidation,
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
       const { id } = req.params;
       const { username, age } = req.body as UpdateUserDto;
 
@@ -67,11 +63,7 @@ export function userRouter(
 
         return res.sendStatus(200);
       } catch (err: unknown) {
-        if (err instanceof Error) {
-          return res.status(400).send({ name: err.name, message: err.message });
-        }
-
-        return res.status(400).send(err);
+        next(err);
       }
     }
   );
@@ -79,7 +71,7 @@ export function userRouter(
   router.delete(
     '/:id',
     param('id').exists().withMessage('id is required'),
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
       try {
         await deleteUserUseCaseInterface.execute(
           req.params as unknown as DeleteUserDto
@@ -87,11 +79,7 @@ export function userRouter(
 
         return res.sendStatus(200);
       } catch (err: unknown) {
-        if (err instanceof Error) {
-          return res.status(400).send({ name: err.name, message: err.message });
-        }
-
-        return res.status(400).send(err);
+        next(err);
       }
     }
   );

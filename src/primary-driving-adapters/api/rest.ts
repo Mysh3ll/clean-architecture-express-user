@@ -8,6 +8,7 @@ import { AddUserUseCaseInterface } from '../../core/use-cases/add-user-use-case'
 import { errorHandler } from './middlewares/error-handler';
 import { UpdateUserUseCaseInterface } from '../../core/use-cases/update-user-use-case';
 import { DeleteUserUseCaseInterface } from '../../core/use-cases/delete-user-use-case';
+import { UserErrorHandler } from './middlewares/user-error-handler';
 
 export interface RestApiConfig {
   log?: boolean;
@@ -57,7 +58,8 @@ export default class RestApi {
         props.addUserUseCase,
         props.updateUserUseCase,
         props.deleteUserUseCase
-      )
+      ),
+      UserErrorHandler()
     );
 
     this.app.use(errorHandler(props.logger));

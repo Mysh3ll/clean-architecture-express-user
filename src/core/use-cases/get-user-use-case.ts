@@ -1,14 +1,14 @@
-import { UserSnapshot } from '../domain/entities/user';
 import { UserRepository } from '../domain/repositories/user-repository';
+import UserSnapshotType from '../domain/entities/user/types/userSnapshot';
 
 export interface GetUserUseCaseInterface {
-  execute(): Promise<UserSnapshot[]>;
+  execute(): Promise<UserSnapshotType[]>;
 }
 
 export class GetUserUseCase implements GetUserUseCaseInterface {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async execute(): Promise<UserSnapshot[]> {
+  async execute(): Promise<UserSnapshotType[]> {
     return this.userRepository.findAll();
   }
 }

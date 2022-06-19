@@ -1,10 +1,11 @@
 import { UserRepository } from '../../../core/domain/repositories/user-repository';
-import { User, UserSnapshot } from '../../../core/domain/entities/user';
+import { User } from '../../../core/domain/entities/user/user';
 import { Logger } from '../../../core/domain/services/logger';
 import { UserNotFoundError } from '../../../core/domain/errors/user-not-found-error';
+import UserSnapshotType from '../../../core/domain/entities/user/types/userSnapshot';
 
 export class InMemoryUserRepository implements UserRepository {
-  private users: UserSnapshot[] = [];
+  private users: UserSnapshotType[] = [];
 
   constructor(private readonly logger: Logger) {}
 
@@ -18,29 +19,30 @@ export class InMemoryUserRepository implements UserRepository {
 
   async delete(id: string): Promise<void> {
     const userFound = await this.getById(id);
-    this.users = this.users.filter(user => user.id !== userFound.id);
+    const userSnapshot = userFound.snapshot();
+    this.users = this.users.filter(user => user.id !== userSnapshot.id);
     this.logger.debug(`InMemoryUserRepository.delete: `, this.users);
 
     return Promise.resolve();
   }
 
-  async findAll(): Promise<UserSnapshot[]> {
+  async findAll(): Promise<UserSnapshotType[]> {
     this.logger.debug(`InMemoryUserRepository.findAll: `, this.users);
 
     return Promise.resolve(this.users);
   }
 
-  async getById(id: string): Promise<UserSnapshot> {
+  async getById(id: string): Promise<User> {
     const user = this.users.find(user => user.id === id);
     this.logger.debug(`InMemoryUserRepository.getById: `, user);
     if (!user) {
       throw new UserNotFoundError();
     }
 
-    return User.restore(user) as unknown as UserSnapshot;
+    return User.restore(user);
   }
 
-  async getByEmail(email: string): Promise<UserSnapshot | null> {
+  async getByEmail(email: string): Promise<UserSnapshotType | null> {
     const user = this.users.find(user => user.email === email);
     this.logger.debug(`InMemoryUserRepository.getByEmail: `, user);
 
@@ -48,13 +50,12 @@ export class InMemoryUserRepository implements UserRepository {
       return null;
     }
 
-    return User.restore(user) as unknown as UserSnapshot;
+    return User.restore(user) as unknown as UserSnapshotType;
   }
 
-  async update(user: User): Promise<void> {
-    const snapshot = user.snapshot();
-    const index = this.users.findIndex(user => user.id === snapshot.id);
-    this.users[index] = snapshot;
+  async update(user: UserSnapshotType): Promise<void> {
+    const index = this.users.findIndex(user => user.id === user.id);
+    this.users[index] = user;
     this.logger.debug(`InMemoryUserRepository.update: `, this.users);
 
     return Promise.resolve();

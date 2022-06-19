@@ -9,6 +9,7 @@ import { errorHandler } from './middlewares/error-handler';
 import { UpdateUserUseCaseInterface } from '../../core/use-cases/update-user-use-case';
 import { DeleteUserUseCaseInterface } from '../../core/use-cases/delete-user-use-case';
 import { UserErrorHandler } from './middlewares/user-error-handler';
+import { GetUserByIdUseCaseInterface } from '../../core/use-cases/get-user-by-id-use-case';
 
 export interface RestApiConfig {
   log?: boolean;
@@ -20,6 +21,7 @@ export interface RestApiProps {
   logger: Logger;
   config: RestApiConfig;
   getUserUseCase: GetUserUseCaseInterface;
+  getUserByIdUseCase: GetUserByIdUseCaseInterface;
   addUserUseCase: AddUserUseCaseInterface;
   updateUserUseCase: UpdateUserUseCaseInterface;
   deleteUserUseCase: DeleteUserUseCaseInterface;
@@ -55,6 +57,7 @@ export default class RestApi {
       '/api/users',
       userRouter(
         props.getUserUseCase,
+        props.getUserByIdUseCase,
         props.addUserUseCase,
         props.updateUserUseCase,
         props.deleteUserUseCase
@@ -70,7 +73,7 @@ export default class RestApi {
 
     return this.app.listen(port, () => {
       if (this.props.config.log ?? true) {
-        console.info(`Server started at http://localhost:${port}`);
+        this.props.logger.info(`Server started at http://localhost:${port}`);
       }
     });
   }

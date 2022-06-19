@@ -1,19 +1,19 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { GetUserUseCaseInterface } from '../../../core/use-cases/get-user-use-case';
-import {
-  AddUserData,
-  DeleteUserData,
-  UpdateUserData,
-  UserSnapshot,
-} from '../../../core/domain/entities/user';
 import { AddUserUseCaseInterface } from '../../../core/use-cases/add-user-use-case';
 import { body, param } from 'express-validator';
 import expressValidation from '../middlewares/express-validation';
 import { UpdateUserUseCaseInterface } from '../../../core/use-cases/update-user-use-case';
 import { DeleteUserUseCaseInterface } from '../../../core/use-cases/delete-user-use-case';
+import { GetUserByIdUseCaseInterface } from '../../../core/use-cases/get-user-by-id-use-case';
+import UserSnapshotType from '../../../core/domain/entities/user/types/userSnapshot';
+import UserAddDataType from '../../../core/domain/entities/user/types/userAddData';
+import UserUpdateDataType from '../../../core/domain/entities/user/types/userUpdateData';
+import UserDeleteDataType from '../../../core/domain/entities/user/types/userDeleteData';
 
 export function userRouter(
   getUserUseCaseInterface: GetUserUseCaseInterface,
+  getUserByIdUseCaseInterface: GetUserByIdUseCaseInterface,
   addUserUseCaseInterface: AddUserUseCaseInterface,
   updateUserUseCaseInterface: UpdateUserUseCaseInterface,
   deleteUserUseCaseInterface: DeleteUserUseCaseInterface
@@ -21,10 +21,27 @@ export function userRouter(
   const router = Router();
 
   router.get('/', async (req: Request, res: Response) => {
-    const users: UserSnapshot[] = await getUserUseCaseInterface.execute();
+    const users: UserSnapshotType[] = await getUserUseCaseInterface.execute();
 
     return res.status(200).json(users);
   });
+
+  router.get(
+    '/:id',
+    param('id').exists().withMessage('id is required'),
+    expressValidation,
+    async (req: Request, res: Response, next: NextFunction) => {
+      const { id } = req.params;
+
+      try {
+        const user = await getUserByIdUseCaseInterface.execute(id);
+
+        return res.status(200).json(user);
+      } catch (err: unknown) {
+        next(err);
+      }
+    }
+  );
 
   router.post(
     '/',
@@ -32,7 +49,7 @@ export function userRouter(
     body('email').isEmail(),
     expressValidation,
     async (req: Request, res: Response, next: NextFunction) => {
-      const { username, email, age } = req.body as AddUserData;
+      const { username, email, age } = req.body as UserAddDataType;
 
       try {
         await addUserUseCaseInterface.execute({ username, email, age });
@@ -52,7 +69,7 @@ export function userRouter(
     expressValidation,
     async (req: Request, res: Response, next: NextFunction) => {
       const { id } = req.params;
-      const { username, age } = req.body as UpdateUserData;
+      const { username, age } = req.body as UserUpdateDataType;
 
       try {
         await updateUserUseCaseInterface.execute({ id, username, age });
@@ -70,7 +87,7 @@ export function userRouter(
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         await deleteUserUseCaseInterface.execute(
-          req.params as unknown as DeleteUserData
+          req.params as unknown as UserDeleteDataType
         );
 
         return res.sendStatus(200);

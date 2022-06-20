@@ -1,12 +1,12 @@
-import { UserRepository } from '../../core/domain/repositories/user-repository';
-import { GetUserByIdUseCase } from '../../core/use-cases/get-user-by-id-use-case';
-import UserBuilder from '../utils/builders/user-builder';
-import { InMemoryUserRepository } from '../../secondary-driven-adapters/persistence/in-memory/in-memory-user-repository';
-import { Logger } from '../../core/domain/services/logger';
-import { ConsoleLogger } from '../../secondary-driven-adapters/services/console-logger';
-import { UserNotFoundError } from '../../core/domain/errors/user-not-found-error';
-import { User } from '../../core/domain/entities/user/user';
-import UserSnapshotType from '../../core/domain/entities/user/types/userSnapshot';
+import { UserRepository } from '../../../core/domain/repositories/user-repository';
+import { GetUserByIdUseCase } from '../../../core/use-cases/user/get-user-by-id-use-case';
+import UserBuilder from '../../utils/builders/user-builder';
+import { InMemoryUserRepository } from '../../../secondary-driven-adapters/persistence/in-memory/in-memory-user-repository';
+import { Logger } from '../../../core/domain/services/logger';
+import { ConsoleLogger } from '../../../secondary-driven-adapters/services/console-logger';
+import { UserNotFoundError } from '../../../core/domain/errors/user-not-found-error';
+import { User } from '../../../core/domain/entities/user/user';
+import UserSnapshotType from '../../../core/domain/entities/user/types/userSnapshot';
 
 describe('Get User by Id', () => {
   let logger: Logger;

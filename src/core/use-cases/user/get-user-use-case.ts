@@ -1,5 +1,5 @@
-import { UserRepository } from '../domain/repositories/user-repository';
-import UserSnapshotType from '../domain/entities/user/types/userSnapshot';
+import { UserRepository } from '../../domain/repositories/user-repository';
+import UserSnapshotType from '../../domain/entities/user/types/userSnapshot';
 
 export interface GetUserUseCaseInterface {
   execute(): Promise<UserSnapshotType[]>;

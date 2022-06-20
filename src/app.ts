@@ -1,12 +1,12 @@
 import { ConsoleLogger } from './secondary-driven-adapters/services/console-logger';
 import RestApi from './primary-driving-adapters/api/rest';
 import { InMemoryUserRepository } from './secondary-driven-adapters/persistence/in-memory/in-memory-user-repository';
-import { GetUserUseCase } from './core/use-cases/get-user-use-case';
+import { GetUserUseCase } from './core/use-cases/user/get-user-use-case';
 import { UuidGenerator } from './secondary-driven-adapters/services/uuid-generator';
-import { AddUserUseCase } from './core/use-cases/add-user-use-case';
-import { UpdateUserUseCase } from './core/use-cases/update-user-use-case';
-import { DeleteUserUseCase } from './core/use-cases/delete-user-use-case';
-import { GetUserByIdUseCase } from './core/use-cases/get-user-by-id-use-case';
+import { AddUserUseCase } from './core/use-cases/user/add-user-use-case';
+import { UpdateUserUseCase } from './core/use-cases/user/update-user-use-case';
+import { DeleteUserUseCase } from './core/use-cases/user/delete-user-use-case';
+import { GetUserByIdUseCase } from './core/use-cases/user/get-user-by-id-use-case';
 
 // Read config
 const enableLog = process.env.ENABLE_LOGS

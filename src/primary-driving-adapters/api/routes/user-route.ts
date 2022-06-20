@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { GetUserUseCaseInterface } from '../../../core/use-cases/get-user-use-case';
-import { AddUserUseCaseInterface } from '../../../core/use-cases/add-user-use-case';
+import { GetUserUseCaseInterface } from '../../../core/use-cases/user/get-user-use-case';
+import { AddUserUseCaseInterface } from '../../../core/use-cases/user/add-user-use-case';
 import { body, param } from 'express-validator';
 import expressValidation from '../middlewares/express-validation';
-import { UpdateUserUseCaseInterface } from '../../../core/use-cases/update-user-use-case';
-import { DeleteUserUseCaseInterface } from '../../../core/use-cases/delete-user-use-case';
-import { GetUserByIdUseCaseInterface } from '../../../core/use-cases/get-user-by-id-use-case';
+import { UpdateUserUseCaseInterface } from '../../../core/use-cases/user/update-user-use-case';
+import { DeleteUserUseCaseInterface } from '../../../core/use-cases/user/delete-user-use-case';
+import { GetUserByIdUseCaseInterface } from '../../../core/use-cases/user/get-user-by-id-use-case';
 import UserSnapshotType from '../../../core/domain/entities/user/types/userSnapshot';
 import UserAddDataType from '../../../core/domain/entities/user/types/userAddData';
 import UserUpdateDataType from '../../../core/domain/entities/user/types/userUpdateData';

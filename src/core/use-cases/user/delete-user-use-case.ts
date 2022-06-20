@@ -1,5 +1,5 @@
-import { UserRepository } from '../domain/repositories/user-repository';
-import UserDeleteDataType from '../domain/entities/user/types/userDeleteData';
+import { UserRepository } from '../../domain/repositories/user-repository';
+import UserDeleteDataType from '../../domain/entities/user/types/userDeleteData';
 
 export interface DeleteUserUseCaseInterface {
   execute(deleteUserData: UserDeleteDataType): Promise<void>;

@@ -1,5 +1,5 @@
-import { UserRepository } from '../domain/repositories/user-repository';
-import { User } from '../domain/entities/user/user';
+import { UserRepository } from '../../domain/repositories/user-repository';
+import { User } from '../../domain/entities/user/user';
 
 export interface GetUserByIdUseCaseInterface {
   execute(id: string): Promise<User>;

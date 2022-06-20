@@ -2,14 +2,14 @@ import { Server } from 'http';
 import express, { json, urlencoded } from 'express';
 import morgan from 'morgan';
 import { Logger } from '../../core/domain/services/logger';
-import { GetUserUseCaseInterface } from '../../core/use-cases/get-user-use-case';
+import { GetUserUseCaseInterface } from '../../core/use-cases/user/get-user-use-case';
 import { userRouter } from './routes/user-route';
-import { AddUserUseCaseInterface } from '../../core/use-cases/add-user-use-case';
+import { AddUserUseCaseInterface } from '../../core/use-cases/user/add-user-use-case';
 import { errorHandler } from './middlewares/error-handler';
-import { UpdateUserUseCaseInterface } from '../../core/use-cases/update-user-use-case';
-import { DeleteUserUseCaseInterface } from '../../core/use-cases/delete-user-use-case';
+import { UpdateUserUseCaseInterface } from '../../core/use-cases/user/update-user-use-case';
+import { DeleteUserUseCaseInterface } from '../../core/use-cases/user/delete-user-use-case';
 import { UserErrorHandler } from './middlewares/user-error-handler';
-import { GetUserByIdUseCaseInterface } from '../../core/use-cases/get-user-by-id-use-case';
+import { GetUserByIdUseCaseInterface } from '../../core/use-cases/user/get-user-by-id-use-case';
 
 export interface RestApiConfig {
   log?: boolean;

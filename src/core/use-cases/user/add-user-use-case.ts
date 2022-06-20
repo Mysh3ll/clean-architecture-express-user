@@ -1,9 +1,9 @@
-import { User } from '../domain/entities/user/user';
-import { UserRepository } from '../domain/repositories/user-repository';
-import { IdGenerator } from '../domain/services/id-generator';
-import { UserAlreadyExistsError } from '../domain/errors/user-already-exists-error';
-import UserAddDataType from '../domain/entities/user/types/userAddData';
-import UserSnapshotType from '../domain/entities/user/types/userSnapshot';
+import { User } from '../../domain/entities/user/user';
+import { UserRepository } from '../../domain/repositories/user-repository';
+import { IdGenerator } from '../../domain/services/id-generator';
+import { UserAlreadyExistsError } from '../../domain/errors/user-already-exists-error';
+import UserAddDataType from '../../domain/entities/user/types/userAddData';
+import UserSnapshotType from '../../domain/entities/user/types/userSnapshot';
 
 export interface AddUserUseCaseInterface {
   execute(addUserData: UserAddDataType): Promise<void>;

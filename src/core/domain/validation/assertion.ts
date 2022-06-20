@@ -23,4 +23,26 @@ export default class Assertion {
       throw new InvalidArgumentError(msg ?? 'Value is not a valid email');
     }
   };
+
+  static maxLength = (
+    value: string | null,
+    maxLength: number,
+    msg: string | null = null
+  ): void => {
+    if (value && value.length > maxLength) {
+      throw new InvalidArgumentError(
+        msg ?? `Value must be less than ${maxLength} characters`
+      );
+    }
+  };
+
+  static isOneOf = (
+    value: string,
+    availableValues: string[],
+    msg: string | null = null
+  ): void => {
+    if (!availableValues.includes(value)) {
+      throw new InvalidArgumentError(msg ?? 'Value is not allowed');
+    }
+  };
 }

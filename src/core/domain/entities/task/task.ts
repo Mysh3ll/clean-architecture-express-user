@@ -1,5 +1,6 @@
 import TaskStatus from './types/task-status';
 import TaskSnapshot from './types/taskSnapshot';
+import Assertion from '../../validation/assertion';
 
 export class Task {
   #id: string;
@@ -26,6 +27,36 @@ export class Task {
     this.#createdAt = createdAt;
     this.#updatedAt = updatedAt;
     this.#userId = userId;
+
+    Assertion.notBlank(id, `Task: id must be provided`);
+    Assertion.notBlank(title, `Task: title must be provided`);
+    Assertion.maxLength(
+      title,
+      100,
+      `Task: title must be less than 100 characters`
+    );
+    Assertion.notBlank(description, `Task: description must be provided`);
+    Assertion.maxLength(
+      description,
+      1000,
+      `Task: description must be less than 500 characters`
+    );
+    Assertion.isOneOf(
+      status,
+      Object.values(TaskStatus),
+      `Task: status type attribute must be one of: ${Object.values(
+        TaskStatus
+      ).join(',')}`
+    );
+    Assertion.notBlank(
+      createdAt.toString(),
+      `Task: createdAt must be provided`
+    );
+    Assertion.notBlank(
+      updatedAt.toString(),
+      `Task: updatedAt must be provided`
+    );
+    Assertion.notBlank(userId, `Task: userId must be provided`);
   }
 
   snapshot() {

@@ -2,6 +2,7 @@ import { TaskRepository } from '../../../core/domain/repositories/task-repositor
 import { Task } from '../../../core/domain/entities/task/task';
 import { Logger } from '../../../core/domain/services/logger';
 import TaskSnapshotType from '../../../core/domain/entities/task/types/taskSnapshot';
+import { RecordNotFoundError } from '../../../core/domain/errors/record-not-found-error';
 
 export class InMemoryTaskRepository implements TaskRepository {
   #tasks: TaskSnapshotType[] = [];
@@ -12,11 +13,24 @@ export class InMemoryTaskRepository implements TaskRepository {
   }
 
   async getById(id: string): Promise<Task> {
-    return Promise.resolve(Task.restore(this.#tasks[0]));
+    const taskFound = this.#tasks.find(task => task.id === id);
+
+    if (!taskFound) {
+      throw new RecordNotFoundError(`Task with id ${id} not found`);
+    }
+    this.#logger.debug(`InMemoryTaskRepository.getById: `, taskFound);
+
+    return Task.restore(taskFound);
   }
 
-  delete(id: string): Promise<void> {
-    return Promise.resolve(undefined);
+  async delete(id: string): Promise<void> {
+    const taskFound = await this.getById(id);
+    const taskSnapshot = taskFound.snapshot();
+
+    this.#tasks = this.#tasks.filter(task => task.id !== taskSnapshot.id);
+    this.#logger.debug(`InMemoryTaskRepository.delete: `, this.#tasks);
+
+    return Promise.resolve();
   }
 
   async findAll(): Promise<TaskSnapshotType[]> {

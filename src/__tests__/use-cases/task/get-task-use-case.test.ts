@@ -3,19 +3,14 @@ import { GetTaskUseCase } from '../../../core/use-cases/task/get-task-use-case';
 import { TaskRepository } from '../../../core/domain/repositories/task-repository';
 import { ConsoleLogger } from '../../../secondary-driven-adapters/services/console-logger';
 import { InMemoryTaskRepository } from '../../../secondary-driven-adapters/persistence/in-memory/in-memory-task-repository';
-import { TaskBuilder } from '../../utils/builders/task-builder';
 import { Task } from '../../../core/domain/entities/task/task';
 import TaskSnapshotType from '../../../core/domain/entities/task/types/taskSnapshot';
+import { tasks } from '../../fixtures/task';
 
 describe('Get task', () => {
   let logger: Logger;
   let getTaskUseCase: GetTaskUseCase;
   let taskRepository: TaskRepository;
-
-  const task1 = new TaskBuilder().withId('123').build();
-  const task2 = new TaskBuilder().withId('456').build();
-  const task3 = new TaskBuilder().withId('789').build();
-  const tasks = [task1, task2, task3];
 
   beforeAll(() => {
     logger = new ConsoleLogger();

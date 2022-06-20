@@ -1,7 +1,7 @@
 import { UserRepository } from '../../../core/domain/repositories/user-repository';
 import { User } from '../../../core/domain/entities/user/user';
 import { Logger } from '../../../core/domain/services/logger';
-import { UserNotFoundError } from '../../../core/domain/errors/user-not-found-error';
+import { RecordNotFoundError } from '../../../core/domain/errors/record-not-found-error';
 import UserSnapshotType from '../../../core/domain/entities/user/types/userSnapshot';
 
 export class InMemoryUserRepository implements UserRepository {
@@ -36,7 +36,7 @@ export class InMemoryUserRepository implements UserRepository {
     const user = this.users.find(user => user.id === id);
     this.logger.debug(`InMemoryUserRepository.getById: `, user);
     if (!user) {
-      throw new UserNotFoundError();
+      throw new RecordNotFoundError('User not found');
     }
 
     return User.restore(user);

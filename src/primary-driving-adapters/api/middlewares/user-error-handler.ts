@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserAlreadyExistsError } from '../../../core/domain/errors/user-already-exists-error';
-import { UserNotFoundError } from '../../../core/domain/errors/user-not-found-error';
+import { RecordNotFoundError } from '../../../core/domain/errors/record-not-found-error';
 
 export const UserErrorHandler =
   () =>
@@ -14,7 +14,7 @@ export const UserErrorHandler =
     switch (err.constructor) {
       case UserAlreadyExistsError:
         return res.status(409).send(err.message);
-      case UserNotFoundError:
+      case RecordNotFoundError:
         return res.status(404).send(err.message);
       default:
         return res.status(500).send('Internal Error');

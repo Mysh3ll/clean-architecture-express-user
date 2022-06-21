@@ -22,7 +22,7 @@ describe('Get User by Id', () => {
     getUserByIdUseCase = new GetUserByIdUseCase(userRepository);
   });
 
-  it('should throw error when there is no available user', async () => {
+  it('Should throw error when there is no available user', async () => {
     await expect(getUserByIdUseCase.execute('not_existing_id')).rejects.toThrow(
       RecordNotFoundError
     );
@@ -33,7 +33,7 @@ describe('Get User by Id', () => {
       userRepository.save(user1);
     });
 
-    it('should return a User', async () => {
+    it('Should return a User', async () => {
       // Arrange
       const user: User = await getUserByIdUseCase.execute(userId);
       const userSnapshot: UserSnapshotType = user.snapshot();

@@ -36,10 +36,10 @@ describe('Get Task by Id', () => {
 
   describe('Data loading', () => {
     beforeAll(() => {
-      tasks.map(task => taskRepository.save(task));
+      tasks.map(async task => await taskRepository.save(task));
     });
 
-    it('should return a Task', async () => {
+    it('Should return a Task', async () => {
       // Arrange
       const task: Task = await getTaskByIdUseCase.execute(task1.snapshot().id);
       const taskSnapshot: TaskSnapshotType = task.snapshot();

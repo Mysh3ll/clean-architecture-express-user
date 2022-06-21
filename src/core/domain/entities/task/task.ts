@@ -1,6 +1,8 @@
 import TaskStatus from './types/task-status';
 import TaskSnapshot from './types/taskSnapshot';
 import Assertion from '../../validation/assertion';
+import TaskUpdateData from './types/taskUpdateData';
+import TaskSnapshotType from './types/taskSnapshot';
 
 export class Task {
   #id: string;
@@ -81,5 +83,17 @@ export class Task {
       snapshot.updatedAt,
       snapshot.userId
     );
+  }
+
+  update(data: TaskUpdateData): TaskSnapshotType {
+    return {
+      id: this.#id,
+      title: data.title ?? this.#title,
+      description: data.description ?? this.#description,
+      status: data.status ?? this.#status,
+      createdAt: this.#createdAt,
+      updatedAt: new Date(),
+      userId: this.#userId,
+    };
   }
 }

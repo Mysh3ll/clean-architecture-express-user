@@ -12,19 +12,19 @@ export class InMemoryTaskRepository implements TaskRepository {
     this.#logger = logger;
   }
 
-  async getById(id: string): Promise<Task> {
-    const taskFound = this.#tasks.find(task => task.id === id);
+  async getById(taskId: string): Promise<Task> {
+    const taskFound = this.#tasks.find(task => task.id === taskId);
 
     if (!taskFound) {
-      throw new RecordNotFoundError(`Task with id ${id} not found`);
+      throw new RecordNotFoundError(`Task with id ${taskId} not found`);
     }
     this.#logger.debug(`InMemoryTaskRepository.getById: `, taskFound);
 
     return Task.restore(taskFound);
   }
 
-  async delete(id: string): Promise<void> {
-    const taskFound = await this.getById(id);
+  async delete(taskId: string): Promise<void> {
+    const taskFound = await this.getById(taskId);
     const taskSnapshot = taskFound.snapshot();
 
     this.#tasks = this.#tasks.filter(task => task.id !== taskSnapshot.id);
@@ -38,15 +38,19 @@ export class InMemoryTaskRepository implements TaskRepository {
     return this.#tasks;
   }
 
-  save(task: Task): Promise<void> {
-    const snapshot = task.snapshot();
+  save(taskToCreate: Task): Promise<void> {
+    const snapshot = taskToCreate.snapshot();
     this.#tasks.push(snapshot);
     this.#logger.debug(`InMemoryTaskRepository.save: `, this.#tasks);
 
     return Promise.resolve();
   }
 
-  update(task: Task): Promise<void> {
-    return Promise.resolve(undefined);
+  update(taskToUpdate: TaskSnapshotType): Promise<void> {
+    const index = this.#tasks.findIndex(task => task.id === taskToUpdate.id);
+    this.#tasks[index] = taskToUpdate;
+    this.#logger.debug(`InMemoryUserRepository.update: `, this.#tasks);
+
+    return Promise.resolve();
   }
 }

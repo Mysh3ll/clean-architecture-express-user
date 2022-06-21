@@ -35,7 +35,7 @@ describe('Delete task', () => {
 
   describe('Data loading', () => {
     beforeAll(() => {
-      tasks.map(task => taskRepository.save(task));
+      tasks.map(async task => await taskRepository.save(task));
     });
 
     it('Should delete a task', async () => {

@@ -14,9 +14,7 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
     const userFound: User = await this.userRepository.getById(
       updateUserData.id
     );
-    const userFoundSnapshot: UserSnapshotType = userFound.snapshot();
-    const userUpdated: UserSnapshotType =
-      User.restore(userFoundSnapshot).update(updateUserData);
+    const userUpdated: UserSnapshotType = userFound.update(updateUserData);
 
     await this.userRepository.update(userUpdated);
   }

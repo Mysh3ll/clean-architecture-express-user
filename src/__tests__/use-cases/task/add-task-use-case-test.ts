@@ -3,7 +3,7 @@ import { AddTaskUseCase } from '../../../core/use-cases/task/add-task-use-case';
 import { TaskRepository } from '../../../core/domain/repositories/task-repository';
 import { ConsoleLogger } from '../../../secondary-driven-adapters/services/console-logger';
 import { InMemoryTaskRepository } from '../../../secondary-driven-adapters/persistence/in-memory/in-memory-task-repository';
-import { task1Payload } from '../../fixtures/task';
+import { taskAddPayload } from '../../fixtures/task';
 import { InvalidArgumentError } from '../../../core/domain/errors/invalid-argument-error';
 import TaskAddDataType from '../../../core/domain/entities/task/types/taskAddData';
 import { UuidGenerator } from '../../../secondary-driven-adapters/services/uuid-generator';
@@ -56,7 +56,7 @@ describe('Add Task', () => {
     ].forEach(({ key, value }) => {
       it(`Should throw error when task has invalid ${key}`, async () => {
         // Arrange
-        const newTask: TaskAddDataType = { ...task1Payload, [key]: value };
+        const newTask: TaskAddDataType = { ...taskAddPayload, [key]: value };
 
         // Act
         const action = () => addTaskUseCase.execute({ ...newTask });
@@ -68,9 +68,9 @@ describe('Add Task', () => {
   });
 
   describe('Data persistence', () => {
-    it('should save a task', async () => {
+    it('Should save a task', async () => {
       // Arrange
-      await addTaskUseCase.execute({ ...task1Payload });
+      await addTaskUseCase.execute({ ...taskAddPayload });
 
       // Act
       const tasks: TaskSnapshotType[] = await taskRepository.findAll();
@@ -79,7 +79,7 @@ describe('Add Task', () => {
 
       // Assert
       expect(tasks.length).toBe(1);
-      expect(firstTask).toStrictEqual(task1Payload);
+      expect(firstTask).toStrictEqual(taskAddPayload);
     });
   });
 });

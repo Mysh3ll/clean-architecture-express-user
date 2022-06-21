@@ -18,7 +18,7 @@ describe('Get task', () => {
     getTaskUseCase = new GetTaskUseCase(taskRepository);
   });
 
-  it('should return nothing when there are no tasks', async () => {
+  it('Should return nothing when there are no tasks', async () => {
     // Arrange
     const tasksSnapshot: TaskSnapshotType[] = await getTaskUseCase.execute();
 
@@ -29,9 +29,9 @@ describe('Get task', () => {
     expect(tasksSnapshot).toEqual(expectedTasks);
   });
 
-  it('should return a list of tasks', async () => {
+  it('Should return a list of tasks', async () => {
     // Arrange
-    tasks.map(task => taskRepository.save(task));
+    tasks.map(async task => await taskRepository.save(task));
     const tasksSnapshot: TaskSnapshotType[] = await getTaskUseCase.execute();
 
     // Act

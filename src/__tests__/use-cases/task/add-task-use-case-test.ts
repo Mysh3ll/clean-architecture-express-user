@@ -81,5 +81,19 @@ describe('Add Task', () => {
       expect(tasks.length).toBe(1);
       expect(firstTask).toStrictEqual(taskAddPayload);
     });
+
+    it('Should add a task with a new id', async () => {
+      // Arrange
+      await addTaskUseCase.execute({ ...taskAddPayload });
+
+      // Act
+      const tasks: TaskSnapshotType[] = await taskRepository.findAll();
+      const { id, ...firstTask } = tasks[0];
+
+      // Assert
+      expect(tasks.length).toBe(1);
+      expect(firstTask).toStrictEqual(taskAddPayload);
+      expect(id).toBeDefined();
+    });
   });
 });

@@ -3,7 +3,7 @@ import { TaskRepository } from '../../../core/domain/repositories/task-repositor
 import { ConsoleLogger } from '../../../secondary-driven-adapters/services/console-logger';
 import { InMemoryTaskRepository } from '../../../secondary-driven-adapters/persistence/in-memory/in-memory-task-repository';
 import TaskSnapshotType from '../../../core/domain/entities/task/types/taskSnapshot';
-import { task1, task2, task3, tasks } from '../../fixtures/task';
+import { task1, task2, task3, tasks } from '../../fixtures/task-fixtures';
 import { RecordNotFoundError } from '../../../core/domain/errors/record-not-found-error';
 import { DeleteTaskUseCase } from '../../../core/use-cases/task/delete-task-use-case';
 

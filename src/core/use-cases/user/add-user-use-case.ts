@@ -20,7 +20,8 @@ export class AddUserUseCase implements AddUserUseCaseInterface {
       this.idGenerator.generate(),
       addUserData.username,
       addUserData.email,
-      addUserData.age ?? null
+      addUserData.age ?? null,
+      []
     );
 
     const existingUser: UserSnapshotType | null =

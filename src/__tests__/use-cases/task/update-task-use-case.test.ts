@@ -9,7 +9,7 @@ import {
   taskAddPayload,
   tasks,
   taskUpdatePayload,
-} from '../../fixtures/task';
+} from '../../fixtures/task-fixtures';
 import { RecordNotFoundError } from '../../../core/domain/errors/record-not-found-error';
 
 describe('Update Task', () => {

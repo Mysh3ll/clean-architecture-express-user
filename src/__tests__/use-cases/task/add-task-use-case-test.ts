@@ -3,7 +3,7 @@ import { AddTaskUseCase } from '../../../core/use-cases/task/add-task-use-case';
 import { TaskRepository } from '../../../core/domain/repositories/task-repository';
 import { ConsoleLogger } from '../../../secondary-driven-adapters/services/console-logger';
 import { InMemoryTaskRepository } from '../../../secondary-driven-adapters/persistence/in-memory/in-memory-task-repository';
-import { taskAddPayload } from '../../fixtures/task';
+import { taskAddPayload } from '../../fixtures/task-fixtures';
 import { InvalidArgumentError } from '../../../core/domain/errors/invalid-argument-error';
 import TaskAddDataType from '../../../core/domain/entities/task/types/taskAddData';
 import { UuidGenerator } from '../../../secondary-driven-adapters/services/uuid-generator';

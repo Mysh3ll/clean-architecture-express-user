@@ -15,7 +15,8 @@ export default class UserBuilder {
       this.id || randomUUID(),
       'Mysh3ll',
       'Mysh3ll@thetribe.io',
-      41
+      41,
+      []
     );
   }
 }

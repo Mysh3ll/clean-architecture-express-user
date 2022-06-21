@@ -5,7 +5,7 @@ import { ConsoleLogger } from '../../../secondary-driven-adapters/services/conso
 import { InMemoryTaskRepository } from '../../../secondary-driven-adapters/persistence/in-memory/in-memory-task-repository';
 import { Task } from '../../../core/domain/entities/task/task';
 import TaskSnapshotType from '../../../core/domain/entities/task/types/taskSnapshot';
-import { tasks } from '../../fixtures/task';
+import { tasks } from '../../fixtures/task-fixtures';
 
 describe('Get task', () => {
   let logger: Logger;

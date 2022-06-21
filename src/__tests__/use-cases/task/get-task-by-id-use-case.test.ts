@@ -4,7 +4,7 @@ import { RecordNotFoundError } from '../../../core/domain/errors/record-not-foun
 import { GetTaskByIdUseCase } from '../../../core/use-cases/task/get-task-by-id-use-case';
 import { InMemoryTaskRepository } from '../../../secondary-driven-adapters/persistence/in-memory/in-memory-task-repository';
 import { TaskRepository } from '../../../core/domain/repositories/task-repository';
-import { task1, tasks } from '../../fixtures/task';
+import { task1, tasks } from '../../fixtures/task-fixtures';
 import { Task } from '../../../core/domain/entities/task/task';
 import TaskSnapshotType from '../../../core/domain/entities/task/types/taskSnapshot';
 
